@@ -145,7 +145,6 @@ Arguments explain:
 - `HF_HOME`: huggingface cache dir
 - `sshd_port`: sshd port of the container, you can run `ssh -i private_key -p $sshd_port root@$ip` to connect to the container, default to 22001
 - `--rm`: remove the container when exit container (ie.`CTRL + D`)
-  <!--
 
 #### Automated Task Assessment
 
@@ -165,7 +164,7 @@ python eval.py \
 ```
 
 More details can be found in the [lm_eval](https://github.com/EleutherAI/lm-evaluation-harness) documentation.
--->
+
 
 2. Commercial APIs
 
