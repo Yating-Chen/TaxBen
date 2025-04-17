@@ -2,7 +2,7 @@
 
 <div style="width: 100%; height: 100px; text-align: center; background-color: #f4f4f4; padding: 20px 0;">
    <h1 style="font-size: 50px; font-weight: bold; color: black; line-height: 100px;">
-       TaxBen: Evaluation Benchmark for Chinese taxation
+       TaxBen: Benchmarking the Chinese Tax Knowledge of Large Language Models
    </h1>
 </div>
 
@@ -31,13 +31,15 @@
 
 
 
-### Key Features
+### Innovation Points
 
 
-- **Artificial and Model Collaboration**: The data is sourced from manually collected data and model-assisted annotations. Tax regulations, news articles, multiple-choice questions, and calculation problems are manually organized by humans, while tasks such as summary generation, question labeling, and answer verification are partially assisted by pre-trained models and reviewed by tax experts to ensure data quality and accuracy.
-- **Multi-Task**: The benchmark covers three core tax-related tasks: Tax Knowledge Memorization (KM), Tax Knowledge Understanding (KU), and Tax Knowledge Application (KA). These tasks encompass 9 sub-datasets, ranging from regulation memorization and article summarization to calculation problems and question answering, comprehensively evaluating the performance of large-scale models in the tax domain.
-- **Multi-modality**: This benchmark consists of multi-modal tax data, including textual data (such as tax regulations, news articles, and user messages) and numerical data (such as amounts and tax rates in tax calculation problems). It covers various types of tax-related texts, including legal regulations, policy interpretations, exam questions, and real-world consultation cases.
-- **Diversity**: Unlike previous benchmarks that focused solely on single tax knowledge question-answering tasks, this evaluation benchmark includes tasks highly relevant to real-world tax scenarios. 
+- **Introducing TaxBen**, the first benchmark specifically designed for Chinese taxation, comprising 6K instances.
+- **Developing a rare tax dataset**, created by domain experts and augmented with ChatGPT-assisted annotations, featuring highquality data and carefully designed prompts.
+- **Establishing the taxonomy of tax tasks**, organizing the dataset according to Bloom’s cognitive taxonomy to assess capabilities in memorization, comprehension, and application.
+- **Addressing the challenge of matching numerical predictions with labels**, exploring the difficulty of consistent manual prompts and utilizing ChatGPT to guide numerical extraction for effective evaluation.
+- **Conducting in-depth evaluations of 18 popular LLMs**, revealing and discussing their strengths and limitations in tax-related tasks.
+- **Multi-evaluation across tax and NLP tasks** helps analyze the LLM’s shortcomings and potential strengths, further enhancing its performance.
 
 ---
 
@@ -110,41 +112,9 @@
 ```bash
 cd TaxBen
 pip install -r requirements.txt
-cd src/financial-evaluation
+cd src/tax-evaluation
 pip install -e .[multilingual]
 ```
-
-##### Docker image
-
-```bash
-sudo bash scripts/docker_run.sh
-```
-
-Above command starts a docker container, you can modify `docker_run.sh` to fit your environment. We provide pre-built image by running `sudo docker pull tothemoon/TaxBen:latest`
-
-```bash
-docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 \
-    --network host \
-    --env https_proxy=$https_proxy \
-    --env http_proxy=$http_proxy \
-    --env all_proxy=$all_proxy \
-    --env HF_HOME=$hf_home \
-    -it [--rm] \
-        --name TaxBen \
-    -v $TaxBen_path:$TaxBen_path \
-    -v $hf_home:$hf_home \
-    -v $ssh_pub_key:/root/.ssh/authorized_keys \
-    -w $workdir \
-    $docker_user/TaxBen:$tag \
-    [--sshd_port 2201 --cmd "echo 'Hello, world!' && /bin/bash"]
-```
-
-Arguments explain:
-
-- `[]` means ignoreable arguments
-- `HF_HOME`: huggingface cache dir
-- `sshd_port`: sshd port of the container, you can run `ssh -i private_key -p $sshd_port root@$ip` to connect to the container, default to 22001
-- `--rm`: remove the container when exit container (ie.`CTRL + D`)
 
 #### Automated Task Assessment
 
@@ -172,7 +142,7 @@ More details can be found in the [lm_eval](https://github.com/EleutherAI/lm-eval
 export OPENAI_API_SECRET_KEY=YOUR_KEY_HERE
 python eval.py \
     --model chatgpt \
-    --tasks SeaFBen_NA
+    --tasks TaxBen_TaxRecite
 ```
 
 3. Self-Hosted Evaluation
@@ -193,7 +163,7 @@ python data/*/evaluate.py
 
 ### Create new tasks
 
-Creating a new task for SeaFBen involves creating a Huggingface dataset and implementing the task in a Python file. This guide walks you through each step of setting up a new task using the SeaFBen framework.
+Creating a new task for TaxBen involves creating a Huggingface dataset and implementing the task in a Python file. This guide walks you through each step of setting up a new task using the TaxBen framework.
 
 #### Creating your dataset in Huggingface
 
